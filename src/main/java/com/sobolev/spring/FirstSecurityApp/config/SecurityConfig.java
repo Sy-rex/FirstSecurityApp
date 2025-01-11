@@ -26,8 +26,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/auth/login", "/error", "/auth/registration").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().hasAnyRole("ADMIN", "USER")
                 )
                 .formLogin(form -> form
                         .loginPage("/auth/login")
